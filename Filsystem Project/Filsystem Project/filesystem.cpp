@@ -109,7 +109,7 @@ bool FileSystem::removeFolder(std::string &filePath) {
 bool FileSystem::goToFolder(std::string &filePath) {
 	if (validFilePath(this->parseFilePath(filePath)) != nullptr) {
 		// Do the thing with the stuff
-		this->fullPath += filePath;
+		this->fullPath = filePath;
 		return true;
 	}
 	else
