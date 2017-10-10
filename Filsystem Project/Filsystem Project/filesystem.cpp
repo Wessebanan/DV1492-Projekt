@@ -120,19 +120,29 @@ bool FileSystem::removeFolder(std::string &filePath) {
 }
 
 bool FileSystem::goToFolder(std::string &filePath) {
-	FS_item* filePtr = validFilePath(this->parseFilePath(filePath));
+	FS_item* filePtr = this->validFilePath(this->parseFilePath(filePath));
+	bool result = false;
 	if (filePtr != nullptr)
 	{
-		
-		this->fullPath = filePath;
-		return true;
+		std::string name = typeid(filePtr).name();
+		if (name == "Folder")
+		{
+			this->currentDirectory = dynamic_cast<Folder*>(filePtr);
+			result = true;
+			this->fullPath = filePath;
+		}		
 	}
-	else
-		return false;
+	return result;
 }
 
 std::string FileSystem::listDir() {
-	std::string listString;
+	std::vector<std::string> stringVec = this->currentDirectory->getContents();
+	std::string listString = "";
+	while (stringVec.size() > 0)
+	{
+		listString += stringVec.back() + " ";
+		stringVec.pop_back();		
+	}
 	// Find the folder which is the current directory and print the names of all items inside it
 	return listString;
 }
@@ -152,7 +162,21 @@ bool FileSystem::restoreImage(std::string filepath)
 }
 std::string FileSystem::getFileContents(std::string filepath)
 {
-
-	return std::string();
+	FS_item* filePtr = validFilePath(parseFilePath(filepath));
+	std::string contents = "";
+	if (filePtr != nullptr)
+	{
+		std::string name = typeid(filePtr).name();
+		if (name == "File")
+		{
+			File* file = dynamic_cast<File*>(filePtr);
+			contents = mMemblockDevice.readBlock(file->getBlockNr()).toString();
+		}
+	}
+	if (contents == "")
+	{
+		contents = "File does not exist.";
+	}	
+	return contents;
 }
 /* Please insert your code */
