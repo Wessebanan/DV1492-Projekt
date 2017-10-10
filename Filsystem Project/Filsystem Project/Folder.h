@@ -16,7 +16,7 @@ public:
 	Folder(std::string name);
 	~Folder();
 
-	void addFile(int blockNr);
+	void addFile(int blockNr, std::string name);
 	void addFolder(std::string name);
 
 	std::vector<std::string> getContents();

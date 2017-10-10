@@ -42,13 +42,13 @@ void Folder::expand()
 
 }
 
-void Folder::addFile(int blockNr)
+void Folder::addFile(int blockNr, std::string name)
 {
 	if (this->nItems == this->size)
 	{
 		this->expand();
 	}
-	this->items[this->nItems++] = new File(blockNr, this->name);
+	this->items[this->nItems++] = new File(blockNr, name);
 	
 }
 

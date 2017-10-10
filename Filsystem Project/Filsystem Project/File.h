@@ -1,6 +1,6 @@
 #ifndef FILE_H
 #define FILE_H
-
+#include<string>
 #include "FS_item.h"
 class File : public FS_item
 {
