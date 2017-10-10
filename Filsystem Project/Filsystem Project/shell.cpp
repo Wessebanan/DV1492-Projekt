@@ -60,6 +60,10 @@ int main(void) {
 				{
 					std::cout << "Success." << std::endl;
 				}
+				else
+				{
+					std::cout << "Failure." << std::endl;
+				}
                 break;
             case 4: // cat
 				std::cout << fs.getFileContents(commandArr[1]) << std::endl;
@@ -71,7 +75,15 @@ int main(void) {
 				fs.restoreImage(commandArr[1]);
                 break;
             case 7: // rm
-				fs.removeFile(commandArr[1]);
+				if (fs.removeFile(commandArr[1]))
+				{
+					std::cout << "Success." << std::endl;
+				}
+				else
+				{
+					std::cout << "Failure." << std::endl;
+				}
+
                 break;
             case 8: // cp
 				// fs.copyFile(commandArr[1], commandArr[2]);

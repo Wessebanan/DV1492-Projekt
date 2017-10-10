@@ -23,7 +23,7 @@ Folder::~Folder()
 		}
 	}
 	delete[] this->items;
-}
+} 
 
 void Folder::expand()
 {

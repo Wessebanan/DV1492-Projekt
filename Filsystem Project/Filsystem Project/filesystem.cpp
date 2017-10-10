@@ -114,13 +114,27 @@ bool FileSystem::createFolder(std::string &filePath) {
 		return false;
 }
 
-bool FileSystem::removeFile(std::string &filePath) {
-	if (validFilePath(this->parseFilePath(filePath)) != nullptr) {
-		
-		return true;
+bool FileSystem::removeFile(std::string &filePath) 
+{
+	bool result = false;
+	std::vector<std::string> directoryPath = parseFilePath(filePath);
+	std::string fileName = directoryPath.back();
+	directoryPath.pop_back(); // The file path entered is the final file path desired for the file, we want to access the directory above it
+	FS_item* FSitemPointer = this->validFilePath(directoryPath);
+	
+	Folder* folder = dynamic_cast<Folder*>(FSitemPointer);
+	if (folder != nullptr)
+	{
+		FS_item* fsitem = folder->getPointer(fileName);
+		File* file = dynamic_cast<File*>(fsitem);
+		if (file != nullptr)
+		{
+			result = true;
+			folder->removeFile(file->getBlockNr());
+		}
 	}
-	else
-		return false;
+	
+	return result;
 }
 
 bool FileSystem::removeFolder(std::string &filePath) {
