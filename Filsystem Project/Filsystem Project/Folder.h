@@ -19,6 +19,9 @@ public:
 	void addFile(int blockNr, std::string name);
 	void addFolder(std::string name);
 
+	void removeFile(int blockNr);
+	void removeFolder();
+
 	std::vector<std::string> getContents();
 	FS_item* getPointer(std::string name);
 

@@ -25,6 +25,9 @@ int main(void) {
 	std::string userCommand, commandArr[MAXCOMMANDS];
 	std::string user = "user@DV1492";    // Change this if you want another user to be displayed
 	std::string currentDir = "";    // current directory, used for output
+	std::string fileContent = "";
+
+	
 
     bool bRun = true;
 
@@ -51,7 +54,6 @@ int main(void) {
 				fs.listDir();
                 break;
             case 3: // create
-				std::string fileContent;
 				std::cout << "Enter file content: " << std::endl;
 				getline(std::cin, fileContent);
 				fs.createFile(commandArr[1], fileContent);

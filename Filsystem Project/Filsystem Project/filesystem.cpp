@@ -89,6 +89,8 @@ bool FileSystem::createFile(std::string &filePath, std::string &fileContent)
 				{
 					if (this->mMemblockDevice.readBlock(i).toString() == cmp.toString())
 					{
+						fileContent.resize(512);
+						this->mMemblockDevice.writeBlock(i, fileContent);
 						this->currentDirectory->addFile(i, fileName);
 						result = true;
 					}

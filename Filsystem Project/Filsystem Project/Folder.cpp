@@ -49,6 +49,7 @@ void Folder::addFile(int blockNr, std::string name)
 		this->expand();
 	}
 	this->items[this->nItems++] = new File(blockNr, name);
+
 	
 }
 
@@ -58,7 +59,31 @@ void Folder::addFolder(std::string name)
 	{
 		this->expand();
 	}
-	this->items[this->nItems] = new Folder(name);
+	this->items[this->nItems++] = new Folder(name);
+}
+
+void Folder::removeFile(int blockNr)
+{
+	File* filePtr = nullptr;
+	for (int i = 0; i < this->nItems; i++)
+	{
+		filePtr = nullptr;
+		filePtr = dynamic_cast<File*>(items[i]);
+		if ((filePtr != nullptr) && (blockNr == filePtr->getBlockNr()))
+		{
+			delete items[i];
+			items[i] = nullptr;
+		}
+	}
+	this->nItems--;
+}
+
+void Folder::removeFolder()
+{
+	if (this->nItems == 0)
+	{
+		delete this;
+	}
 }
 
 std::vector<std::string> Folder::getContents()
