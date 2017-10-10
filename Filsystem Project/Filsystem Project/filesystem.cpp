@@ -89,14 +89,14 @@ bool FileSystem::createFile(std::string &filePath, std::string &fileContent)
 			if (directoryPointer->getPointer(fileName) == nullptr) 
 			{ // If the filename doesnt already exist
 				Block cmp;
-				for (int i = 0; i < this->mMemblockDevice.size(); i++)
+				for (int i = 0; (i < this->mMemblockDevice.size()) && !result; i++)
 				{
 					if (this->mMemblockDevice.readBlock(i).toString() == cmp.toString())
 					{
 						fileContent.resize(512);
 						this->mMemblockDevice.writeBlock(i, fileContent);
 						this->currentDirectory->addFile(i, fileName);
-						result = true;
+						result = true;						
 					}
 				}
 			}

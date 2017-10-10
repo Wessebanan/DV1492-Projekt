@@ -51,15 +51,18 @@ int main(void) {
                 break;
             case 2: // ls
                 std::cout << "Listing directory: " << std::endl;
-				fs.listDir();
+				std::cout << fs.listDir() << std::endl;
                 break;
             case 3: // create
 				std::cout << "Enter file content: " << std::endl;
 				getline(std::cin, fileContent);
-				fs.createFile(commandArr[1], fileContent);
+				if (fs.createFile(commandArr[1], fileContent))
+				{
+					std::cout << "Success." << std::endl;
+				}
                 break;
             case 4: // cat
-				// fs.printFile(commandArr[1]);
+				std::cout << fs.getFileContents(commandArr[1]) << std::endl;
                 break;
             case 5: // createImage
 				fs.createImage(commandArr[1]);
