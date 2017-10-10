@@ -133,9 +133,9 @@ bool FileSystem::removeFile(std::string &filePath)
 		{
 			result = true;
 			folder->removeFile(file->getBlockNr());
+			this->mMemblockDevice[file->getBlockNr()].reset();
 		}
-	}
-	
+	}	
 	return result;
 }
 
