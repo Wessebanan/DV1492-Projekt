@@ -4,6 +4,9 @@ FS_item* FileSystem::validFilePath(std::vector<std::string> &filePath) {
 	FS_item* toReturn = nullptr;
 	Folder* currentSearchDirectory = this->root;
 	std::vector<std::string> remainingFilePath = filePath;
+	if (remainingFilePath.back() == "root") {
+		toReturn = this->root;
+	}
 	bool valid = true;
 	while (valid && toReturn == nullptr) { // As long as the file path is valid and we havent found the end
 		std::vector<std::string> currentContent = currentSearchDirectory->getContents(); // Get names of everything in current search directory
