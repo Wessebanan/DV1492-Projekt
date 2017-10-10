@@ -1,12 +1,16 @@
 #ifndef FILESYSTEM_H
 #define FILESYSTEM_H
-
+#include "Folder.h"
 #include "memblockdevice.h"
 
 class FileSystem
 {
 private:
     MemBlockDevice mMemblockDevice;
+	Folder* currentDirectory;
+	Folder root;
+
+	bool validFilePath(std::string &filePath);
     // Here you can add your own data structures
 public:
     FileSystem();
@@ -17,22 +21,22 @@ public:
     */
 
     /* This function creates a file in the filesystem */
-    // createFile(...)
+	bool createFile(std::string &filePath);
 
     /* Creates a folder in the filesystem */
-    // createFolder(...);
+    bool createFolder(std::string &filePath);
 
     /* Removes a file in the filesystem */
-    // removeFile(...);
+    bool removeFile(std::string &filePath);
 
     /* Removes a folder in the filesystem */
-    // removeFolder(...);
+    bool removeFolder(std::string &filePath);
 
     /* Function will move the current location to a specified location in the filesystem */
-    // goToFolder(...);
+    bool goToFolder(std::string &filePath);
 
     /* This function will get all the files and folders in the specified folder */
-    // listDir(...);
+    std::string listDir(this->currentDirectory);
 
     /* Add your own member-functions if needed */
 };

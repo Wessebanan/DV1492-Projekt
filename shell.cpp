@@ -42,7 +42,7 @@ int main(void) {
 				bRun = quit();                
                 break;
             case 1: // format
-				// fs.format();
+				//  
                 break;
             case 2: // ls
                 std::cout << "Listing directory" << std::endl;
