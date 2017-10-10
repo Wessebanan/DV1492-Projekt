@@ -18,5 +18,8 @@ public:
 	void addFile(int blockNr);
 	void addFolder(std::string name);
 
+	std::string* getContents();
+	FS_item* getPointer(std::string name);
+
 };
 #endif

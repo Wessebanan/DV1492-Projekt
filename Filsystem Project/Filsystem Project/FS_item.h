@@ -10,7 +10,7 @@ protected:
 
 public:
 	FS_item(std::string name);
-	~FS_item();
+	virtual ~FS_item();
 	std::string getName();
 
 };

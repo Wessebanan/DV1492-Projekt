@@ -60,3 +60,27 @@ void Folder::addFolder(std::string name)
 	}
 	this->items[this->nItems] = new Folder(name);
 }
+
+std::string * Folder::getContents()
+{
+	std::string* contents = new std::string[this->nItems];
+	for (int i = 0; i < this->nItems; i++)
+	{
+		contents[i] = this->items[i]->getName();
+	}
+	return contents;
+}
+
+FS_item * Folder::getPointer(std::string name)
+{
+	FS_item* ptr = nullptr;
+
+	for (int i = 0; (i < this->nItems) && (ptr == nullptr); i++)
+	{
+		if (name == this->items[i]->getName())
+		{
+			ptr = this->items[i];
+		}
+	}
+	return ptr;
+}
