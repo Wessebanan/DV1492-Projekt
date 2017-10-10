@@ -138,7 +138,7 @@ bool FileSystem::goToFolder(std::string &filePath) {
 	if (filePtr != nullptr)
 	{
 		std::string name = typeid(filePtr).name();
-		if (name == "Folder")
+		if (typeid(filePtr) == typeid(Folder*))
 		{
 			this->currentDirectory = dynamic_cast<Folder*>(filePtr);
 			result = true;
@@ -179,11 +179,14 @@ std::string FileSystem::getFileContents(std::string filepath)
 	std::string contents = "";
 	if (filePtr != nullptr)
 	{
-		std::string name = typeid(filePtr).name();
-		if (name == "File")
+		File* file = dynamic_cast<File*>(filePtr);
+		if (file != nullptr)
 		{
-			File* file = dynamic_cast<File*>(filePtr);
 			contents = mMemblockDevice.readBlock(file->getBlockNr()).toString();
+			while (contents.back() == '\0')
+			{
+				contents.pop_back();
+			}
 		}
 	}
 	if (contents == "")
