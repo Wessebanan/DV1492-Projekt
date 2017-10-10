@@ -61,6 +61,8 @@ void Folder::addFolder(std::string name)
 	this->items[this->nItems] = new Folder(name);
 }
 
+
+
 std::string * Folder::getContents()
 {
 	std::string* contents = new std::string[this->nItems];

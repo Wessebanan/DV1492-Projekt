@@ -2,6 +2,7 @@
 #define FILESYSTEM_H
 #include "Folder.h"
 #include "memblockdevice.h"
+#include <vector>
 
 class FileSystem
 {
@@ -10,7 +11,8 @@ private:
 	Folder* currentDirectory;
 	Folder* root;
 
-	bool validFilePath(std::string &filePath);
+	FS_item* validFilePath(std::vector<std::string> &filePath);
+	std::vector<std::string> parseFilePath(std::string &filePath);
     // Here you can add your own data structures
 public:
     FileSystem();

@@ -1,9 +1,27 @@
 #include "filesystem.h"
 
-bool FileSystem::validFilePath(std::string &filePath) {
-	bool result = false;
-	// Check if the filepath is an actual file or folder
-	return result;
+FS_item* FileSystem::validFilePath(std::vector<std::string> &filePath) {
+	FS_item* toReturn = nullptr;
+	Folder* currentSearchDirectory = this->root;
+	bool valid = true;
+	while (valid || toReturn == nullptr) {
+		//std::vector<std::string> currentContent = currentSearchDirecory.getContents();
+	}
+	return toReturn;
+}
+
+std::vector<std::string> parseFilePath(std::string &filePath) {
+	// Reads a filepath of format "dir/dir/dir/file" and outputs a vector with each string
+	std::string currentName;
+	std::vector<std::string> stringVec;
+	for (int i = 0; i < filePath.size(); i++) {
+		if (filePath[i] != '\\' && filePath[i] != '/')
+			currentName = currentName + filePath[i];
+		else {
+			stringVec.push_back(currentName);
+			currentName.clear();
+		}
+	}
 }
 
 FileSystem::FileSystem() {
@@ -17,7 +35,7 @@ FileSystem::~FileSystem() {
 }
 
 bool FileSystem::createFile(std::string &filePath) {
-	if (validFilePath(filePath)) {
+	if (validFilePath(filePath) != nullptr) {
 		// Do the thing with the stuff
 		return true;
 	}
@@ -26,7 +44,7 @@ bool FileSystem::createFile(std::string &filePath) {
 }
 
 bool FileSystem::createFolder(std::string &filePath) {
-	if (validFilePath(filePath)) {
+	if (validFilePath(filePath) != nullptr) {
 		// Do the thing with the stuff
 		return true;
 	}
@@ -35,7 +53,7 @@ bool FileSystem::createFolder(std::string &filePath) {
 }
 
 bool FileSystem::removeFile(std::string &filePath) {
-	if (validFilePath(filePath)) {
+	if (validFilePath(filePath) != nullptr) {
 		// Do the thing with the stuff
 		return true;
 	}
@@ -44,7 +62,7 @@ bool FileSystem::removeFile(std::string &filePath) {
 }
 
 bool FileSystem::removeFolder(std::string &filePath) {
-	if (validFilePath(filePath)) {
+	if (validFilePath(filePath) != nullptr) {
 		// Do the thing with the stuff
 		return true;
 	}
@@ -53,7 +71,7 @@ bool FileSystem::removeFolder(std::string &filePath) {
 }
 
 bool FileSystem::goToFolder(std::string &filePath) {
-	if (validFilePath(filePath)) {
+	if (validFilePath(filePath) != nullptr) {
 		// Do the thing with the stuff
 		return true;
 	}
