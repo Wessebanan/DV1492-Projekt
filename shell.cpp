@@ -42,31 +42,42 @@ int main(void) {
 				bRun = quit();                
                 break;
             case 1: // format
+				// fs.format();
                 break;
             case 2: // ls
                 std::cout << "Listing directory" << std::endl;
+				// fs.listDir(currentDir);
                 break;
             case 3: // create
+				// fs.createFile(commandArr[1]);
                 break;
             case 4: // cat
+				// fs.printFile(commandArr[1]);
                 break;
             case 5: // createImage
                 break;
             case 6: // restoreImage
                 break;
             case 7: // rm
+				// fs.removeFile(commandArr[1]);
                 break;
             case 8: // cp
+				// fs.copyFile(commandArr[1], commandArr[2]);
                 break;
             case 9: // append
+				// Detta är ett C-krav
                 break;
             case 10: // mv
+				// Detta är ett C-krav
                 break;
             case 11: // mkdir
+				// fs.createFolder(commandArr[1]);
                 break;
             case 12: // cd
+				// fs.goToFolder(commandArr[1]);
                 break;
             case 13: // pwd
+				std::cout << currentDir << std::endl;
                 break;
             case 14: // help
                 std::cout << help() << std::endl;
