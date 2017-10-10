@@ -2,6 +2,7 @@
 #define FOLDER_H
 
 #include "File.h"
+#include <vector>
 #define INCREMENT 10
 class Folder : public FS_item
 {
@@ -18,7 +19,7 @@ public:
 	void addFile(int blockNr);
 	void addFolder(std::string name);
 
-	std::string* getContents();
+	std::vector<std::string> getContents();
 	FS_item* getPointer(std::string name);
 
 };

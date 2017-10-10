@@ -61,12 +61,12 @@ void Folder::addFolder(std::string name)
 	this->items[this->nItems] = new Folder(name);
 }
 
-std::string * Folder::getContents()
+std::vector<std::string> Folder::getContents()
 {
-	std::string* contents = new std::string[this->nItems];
+	std::vector<std::string> contents;
 	for (int i = 0; i < this->nItems; i++)
 	{
-		contents[i] = this->items[i]->getName();
+		contents.push_back(this->items[i]->getName());
 	}
 	return contents;
 }

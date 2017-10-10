@@ -2,6 +2,7 @@
 #define FILESYSTEM_H
 #include "Folder.h"
 #include "memblockdevice.h"
+#include <iostream>
 
 class FileSystem
 {
@@ -19,6 +20,7 @@ public:
     /* These API functions need to be implemented
 	   You are free to specify parameter lists and return values
     */
+	void format();
 
     /* This function creates a file in the filesystem */
 	bool createFile(std::string &filePath);
@@ -38,6 +40,9 @@ public:
     /* This function will get all the files and folders in the specified folder */
 	// Kommer typ alltid vara current directory eftersom ls är kommandot
 	std::string listDir();
+
+	bool createImage(std::string filepath);
+	bool restoreImage(std::string filepath);
 
     /* Add your own member-functions if needed */
 };
