@@ -5,7 +5,7 @@ FS_item* FileSystem::validFilePath(std::vector<std::string> &filePath) {
 	Folder* currentSearchDirectory = this->root;
 	std::vector<std::string> remainingFilePath = filePath;
 	bool valid = true;
-	while (valid || toReturn == nullptr) { // As long as the file path is valid and we havent found the end
+	while (valid && toReturn == nullptr) { // As long as the file path is valid and we havent found the end
 		std::vector<std::string> currentContent = currentSearchDirectory->getContents(); // Get names of everything in current search directory
 		std::string nameToFind = remainingFilePath.front(); // Name at the front of the filepath currently
 		bool currentNameFound = false;
@@ -51,6 +51,7 @@ std::vector<std::string> FileSystem::parseFilePath(std::string &filePath) {
 			currentName.clear();
 		}
 	}
+	stringVec.push_back(currentName);
 	return stringVec;
 }
 
