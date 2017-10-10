@@ -34,6 +34,11 @@ FileSystem::~FileSystem() {
 	delete this->root;
 }
 
+void FileSystem::format()
+{
+	this->mMemblockDevice = MemBlockDevice();
+}
+
 bool FileSystem::createFile(std::string &filePath) {
 	if (validFilePath(filePath) != nullptr) {
 		// Do the thing with the stuff
@@ -83,5 +88,14 @@ std::string FileSystem::listDir() {
 	std::string listString;
 	// Find the folder which is the current directory and print the names of all items inside it
 	return listString;
+}
+bool FileSystem::createImage(std::string filepath)
+{
+	std::ofstream os();
+	return false;
+}
+bool FileSystem::restoreImage(std::string filepath)
+{
+	return false;
 }
 /* Please insert your code */
