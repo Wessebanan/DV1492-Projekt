@@ -2,7 +2,7 @@
 #define FILESYSTEM_H
 #include "Folder.h"
 #include "memblockdevice.h"
-#include <iostream>
+#include <fstream>
 
 class FileSystem
 {
@@ -10,6 +10,8 @@ private:
     MemBlockDevice mMemblockDevice;
 	Folder* currentDirectory;
 	Folder* root;
+
+	std::string fullPath;
 
 	bool validFilePath(std::string &filePath);
     // Here you can add your own data structures
@@ -43,6 +45,7 @@ public:
 
 	bool createImage(std::string filepath);
 	bool restoreImage(std::string filepath);
+	std::string getFileContents(std::string filepath);
 
     /* Add your own member-functions if needed */
 };

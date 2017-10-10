@@ -9,6 +9,7 @@ bool FileSystem::validFilePath(std::string &filePath) {
 FileSystem::FileSystem() {
 	this->root = new Folder(std::string("root"));
 	this->currentDirectory = root;
+	this->fullPath = "";
 }
 
 FileSystem::~FileSystem() {
@@ -60,6 +61,7 @@ bool FileSystem::removeFolder(std::string &filePath) {
 bool FileSystem::goToFolder(std::string &filePath) {
 	if (validFilePath(filePath)) {
 		// Do the thing with the stuff
+		this->fullPath += filePath;
 		return true;
 	}
 	else
@@ -73,11 +75,21 @@ std::string FileSystem::listDir() {
 }
 bool FileSystem::createImage(std::string filepath)
 {
-	std::ofstream os();
+	std::ofstream os;
+	os.open(filepath);
+	
 	return false;
 }
 bool FileSystem::restoreImage(std::string filepath)
 {
+	std::ifstream is;
+	is.open(filepath);
+	
 	return false;
+}
+std::string FileSystem::getFileContents(std::string filepath)
+{
+
+	return std::string();
 }
 /* Please insert your code */

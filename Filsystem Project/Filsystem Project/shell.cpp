@@ -46,8 +46,8 @@ int main(void) {
 				std::cout << "Format successful." << std::endl;
                 break;
             case 2: // ls
-                std::cout << "Listing directory" << std::endl;
-				// fs.listDir(currentDir);
+                std::cout << "Listing directory: " << std::endl;
+				fs.listDir();
                 break;
             case 3: // create
 				// fs.createFile(commandArr[1]);
@@ -56,11 +56,13 @@ int main(void) {
 				// fs.printFile(commandArr[1]);
                 break;
             case 5: // createImage
+				fs.createImage(commandArr[1]);
                 break;
             case 6: // restoreImage
+				fs.restoreImage(commandArr[1]);
                 break;
             case 7: // rm
-				// fs.removeFile(commandArr[1]);
+				fs.removeFile(commandArr[1]);
                 break;
             case 8: // cp
 				// fs.copyFile(commandArr[1], commandArr[2]);
@@ -72,10 +74,10 @@ int main(void) {
 				// Detta är ett C-krav
                 break;
             case 11: // mkdir
-				// fs.createFolder(commandArr[1]);
+				fs.createFolder(commandArr[1]);
                 break;
             case 12: // cd
-				// fs.goToFolder(commandArr[1]);
+				fs.goToFolder(commandArr[1]);
                 break;
             case 13: // pwd
 				std::cout << currentDir << std::endl;
