@@ -9,3 +9,8 @@ File::File(int blockNr, std::string name)
 File::~File()
 {
 }
+
+int File::getBlockNr()
+{
+	return this->blockNr;
+}

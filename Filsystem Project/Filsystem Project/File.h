@@ -11,6 +11,7 @@ public:
 	File(int blockNr, std::string name);
 	~File();
 
+	int getBlockNr();
 };
 
 #endif
