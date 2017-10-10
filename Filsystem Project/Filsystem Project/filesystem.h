@@ -27,7 +27,7 @@ public:
 	void format();
 
     /* This function creates a file in the filesystem */
-	bool createFile(std::string &filePath);
+	bool createFile(std::string &filePath, std::string &fileContent);
 
     /* Creates a folder in the filesystem */
     bool createFolder(std::string &filePath);

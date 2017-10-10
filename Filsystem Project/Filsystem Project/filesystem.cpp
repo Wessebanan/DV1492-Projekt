@@ -70,13 +70,26 @@ void FileSystem::format()
 	this->mMemblockDevice = MemBlockDevice();
 }
 
-bool FileSystem::createFile(std::string &filePath) {
-	if (validFilePath(this->parseFilePath(filePath)) != nullptr) {
-		// Do the thing with the stuff
-		return true;
+bool FileSystem::createFile(std::string & filePath, std::string & fileContent)
+{
+	return false;
+}
+
+bool FileSystem::createFile(std::string &filePath, std::string &fileContent) {
+	std::vector<std::string> directoryPath = parseFilePath(filePath);
+	std::string fileName = directoryPath.back();
+	directoryPath.pop_back(); // The file path entered is the final file path desired for the file, we want to access the directory above it
+	FS_item* FSitemPointer = this->validFilePath(directoryPath);
+	if (FSitemPointer != nullptr) { // If the file path was valid
+		if (typeid(*FSitemPointer) == typeid(Folder)) { // If the file path is a folder and NOT a file
+			Folder* directoryPointer = (Folder*)FSitemPointer; // Typecast to folder
+			if (directoryPointer->getPointer(fileName) == nullptr) { // If the filename doesnt already exist
+				// Everything is set to create the file, do it
+				// TODO: ALLOTA SHIZZLITS
+			}
+		}
 	}
-	else
-		return false;
+	return false;
 }
 
 bool FileSystem::createFolder(std::string &filePath) {

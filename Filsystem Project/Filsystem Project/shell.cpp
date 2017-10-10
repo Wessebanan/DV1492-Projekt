@@ -51,7 +51,10 @@ int main(void) {
 				fs.listDir();
                 break;
             case 3: // create
-				// fs.createFile(commandArr[1]);
+				std::string fileContent;
+				std::cout << "Enter file content: " << std::endl;
+				getline(std::cin, fileContent);
+				fs.createFile(commandArr[1], fileContent);
                 break;
             case 4: // cat
 				// fs.printFile(commandArr[1]);
