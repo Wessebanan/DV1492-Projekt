@@ -48,6 +48,7 @@ public:
 	bool createImage(std::string filepath);
 	bool restoreImage(std::string filepath);
 	std::string getFileContents(std::string filepath);//cat
+	std::string getFullPath();
     /* Add your own member-functions if needed */
 };
 

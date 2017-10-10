@@ -24,11 +24,12 @@ int main(void) {
 
 	std::string userCommand, commandArr[MAXCOMMANDS];
 	std::string user = "user@DV1492";    // Change this if you want another user to be displayed
-	std::string currentDir = "/";    // current directory, used for output
+	std::string currentDir = "";    // current directory, used for output
 
     bool bRun = true;
 
     do {
+		currentDir = "/" + fs.getFullPath();
         std::cout << user << ":" << currentDir << "$ ";
         getline(std::cin, userCommand);
 
@@ -89,6 +90,7 @@ int main(void) {
                 std::cout << "Unknown command: " << commandArr[0] << std::endl;
             }
         }
+		
     } while (bRun == true);
 
     return 0;

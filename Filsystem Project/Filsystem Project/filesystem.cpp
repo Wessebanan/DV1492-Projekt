@@ -166,4 +166,8 @@ std::string FileSystem::getFileContents(std::string filepath)
 	}	
 	return contents;
 }
+std::string FileSystem::getFullPath()
+{
+	return this->fullPath;
+}
 /* Please insert your code */
