@@ -2,7 +2,7 @@
 #define FILESYSTEM_H
 #include "Folder.h"
 #include "memblockdevice.h"
-#include <iostream>
+#include <fstream>
 #include <vector>
 
 class FileSystem
@@ -11,6 +11,8 @@ private:
     MemBlockDevice mMemblockDevice;
 	Folder* currentDirectory;
 	Folder* root;
+
+	std::string fullPath;
 
 	FS_item* validFilePath(std::vector<std::string> &filePath);
 	std::vector<std::string> parseFilePath(std::string &filePath);
