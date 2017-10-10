@@ -71,6 +71,8 @@ FileSystem::~FileSystem() {
 
 void FileSystem::format()
 {
+	delete this->root;
+	this->root = new Folder(std::string("root"));
 	this->mMemblockDevice = MemBlockDevice();
 }
 
@@ -197,7 +199,7 @@ std::string FileSystem::getFileContents(std::string filepath)
 		if (file != nullptr)
 		{
 			contents = mMemblockDevice.readBlock(file->getBlockNr()).toString();
-			while (contents.back() == '\0')
+			while (contents.size() > 0 && contents.back() == '\0')
 			{
 				contents.pop_back();
 			}
