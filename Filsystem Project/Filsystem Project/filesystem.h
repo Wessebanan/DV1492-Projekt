@@ -8,7 +8,7 @@ class FileSystem
 private:
     MemBlockDevice mMemblockDevice;
 	Folder* currentDirectory;
-	Folder root;
+	Folder* root;
 
 	bool validFilePath(std::string &filePath);
     // Here you can add your own data structures
@@ -36,7 +36,8 @@ public:
     bool goToFolder(std::string &filePath);
 
     /* This function will get all the files and folders in the specified folder */
-    std::string listDir(this->currentDirectory);
+	// Kommer typ alltid vara current directory eftersom ls är kommandot
+	std::string listDir();
 
     /* Add your own member-functions if needed */
 };
