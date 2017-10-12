@@ -176,6 +176,39 @@ bool FileSystem::goToFolder(std::string &filePath) {
 	return result;
 }
 
+bool FileSystem::copyFile(std::string & filePath, std::string filePath2)
+{
+	bool result = false;
+	std::string content = this->getFileContents(filePath);
+	std::vector<std::string> directoryPath = this->parseFilePath(filePath2);
+	std::string fileName = directoryPath.back();
+	directoryPath.pop_back(); // The file path entered is the final file path desired for the file, we want to access the directory above it
+	FS_item* FSitemPointer = this->validFilePath(directoryPath);
+	if (FSitemPointer != nullptr)
+	{ // If the file path was valid
+		if (typeid(*FSitemPointer) == typeid(Folder))
+		{ // If the file path is a folder and NOT a file
+			Folder* directoryPointer = (Folder*)FSitemPointer; // Typecast to folder
+			if (directoryPointer->getPointer(fileName) == nullptr)
+			{ // If the filename doesnt already exist
+				Block cmp;
+				for (int i = 0; (i < this->mMemblockDevice.size()) && !result; i++)
+				{
+					if (this->mMemblockDevice.readBlock(i).toString() == cmp.toString())
+					{
+						content.resize(512);
+						this->mMemblockDevice.writeBlock(i, content);
+						directoryPointer->addFile(i, fileName);
+						result = true;
+					}
+				}
+			}
+		}
+	}
+	
+	return result;
+}
+
 std::string FileSystem::listDir() {
 	std::vector<std::string> stringVec = this->currentDirectory->getContents();
 	std::string listString = "";

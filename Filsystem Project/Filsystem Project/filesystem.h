@@ -41,6 +41,8 @@ public:
     /* Function will move the current location to a specified location in the filesystem */
     bool goToFolder(std::string &filePath);
 
+	bool copyFile(std::string &filepath, std::string filePath2);
+
     /* This function will get all the files and folders in the specified folder */
 	// Kommer typ alltid vara current directory eftersom ls är kommandot
 	std::string listDir();
