@@ -183,8 +183,9 @@ bool FileSystem::goToFolder(std::string &filePath) {
 bool FileSystem::copyFile(std::string & filePath, std::string filePath2)
 {
 	bool result = false;
+	std::string finalPath = this->fullPath + filePath2;
 	std::string content = this->getFileContents(filePath);
-	std::vector<std::string> directoryPath = this->parseFilePath(filePath2);
+	std::vector<std::string> directoryPath = this->parseFilePath(finalPath);
 	std::string fileName = directoryPath.back();
 	directoryPath.pop_back(); // The file path entered is the final file path desired for the file, we want to access the directory above it
 	FS_item* FSitemPointer = this->validFilePath(directoryPath);
@@ -224,7 +225,7 @@ std::string FileSystem::listDir() {
 	// Find the folder which is the current directory and print the names of all items inside it
 	return listString;
 }
-bool FileSystem::createImage(std::string filepath = "image")
+bool FileSystem::createImage(std::string filepath)
 {
 	bool result = true;
 	std::ofstream os;
@@ -261,7 +262,7 @@ bool FileSystem::createImage(std::string filepath = "image")
 	}
 	return result;
 }
-bool FileSystem::restoreImage(std::string filepath = "image")
+bool FileSystem::restoreImage(std::string filepath)
 {
 	this->format();
 	bool result = true;
