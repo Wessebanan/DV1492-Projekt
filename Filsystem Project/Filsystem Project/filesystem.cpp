@@ -27,7 +27,7 @@ FS_item* FileSystem::validFilePath(std::vector<std::string> &filePath) {
 
 			}
 			else if (typeid(*newPointer) == typeid(Folder)) {
-				currentSearchDirectory == newPointer;
+				currentSearchDirectory = dynamic_cast<Folder*>(newPointer);
 				remainingFilePath.erase(remainingFilePath.begin()); // "pop_front", continue to next part of filepath and do the entire loop again
 			}
 			else {
@@ -161,7 +161,8 @@ bool FileSystem::removeFolder(std::string &filePath) {
 }
 
 bool FileSystem::goToFolder(std::string &filePath) {
-	FS_item* filePtr = this->validFilePath(this->parseFilePath(filePath));
+	std::string finalPath = this->fullPath + filePath;
+	FS_item* filePtr = this->validFilePath(this->parseFilePath(finalPath));
 	bool result = false;
 	if (filePtr != nullptr)
 	{
@@ -170,7 +171,7 @@ bool FileSystem::goToFolder(std::string &filePath) {
 		{
 			this->currentDirectory = dynamic_cast<Folder*>(filePtr);
 			result = true;
-			this->fullPath = filePath;
+			this->fullPath = finalPath;
 		}		
 	}
 	return result;
