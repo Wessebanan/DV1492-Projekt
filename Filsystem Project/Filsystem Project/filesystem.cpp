@@ -161,7 +161,8 @@ bool FileSystem::removeFolder(std::string &filePath) {
 }
 
 bool FileSystem::goToFolder(std::string &filePath) {
-	FS_item* filePtr = this->validFilePath(this->parseFilePath(filePath));
+	std::string finalPath = this->fullPath + filePath;
+	FS_item* filePtr = this->validFilePath(this->parseFilePath(finalPath));
 	bool result = false;
 	if (filePtr != nullptr)
 	{
@@ -170,7 +171,7 @@ bool FileSystem::goToFolder(std::string &filePath) {
 		{
 			this->currentDirectory = dynamic_cast<Folder*>(filePtr);
 			result = true;
-			this->fullPath = filePath;
+			this->fullPath = finalPath;
 		}		
 	}
 	return result;
