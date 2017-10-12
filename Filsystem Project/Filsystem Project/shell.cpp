@@ -99,7 +99,14 @@ int main(void) {
 				}
                 break;
             case 8: // cp
-				// fs.copyFile(commandArr[1], commandArr[2]);
+				if (fs.copyFile(commandArr[1], commandArr[2]))
+				{
+					std::cout << "Success." << std::endl;
+				}
+				else
+				{
+					std::cout << "Failure." << std::endl;
+				}
                 break;
             case 9: // append
 				// Detta är ett C-krav

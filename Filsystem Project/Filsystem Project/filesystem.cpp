@@ -27,7 +27,7 @@ FS_item* FileSystem::validFilePath(std::vector<std::string> &filePath) {
 
 			}
 			else if (typeid(*newPointer) == typeid(Folder)) {
-				currentSearchDirectory == newPointer;
+				currentSearchDirectory = dynamic_cast<Folder*>(newPointer);
 				remainingFilePath.erase(remainingFilePath.begin()); // "pop_front", continue to next part of filepath and do the entire loop again
 			}
 			else {
@@ -79,7 +79,8 @@ void FileSystem::format()
 bool FileSystem::createFile(std::string &filePath, std::string &fileContent)
 {
 	bool result = false;
-	std::vector<std::string> directoryPath = this->parseFilePath(filePath);
+	std::string finalPath = this->fullPath + filePath;
+	std::vector<std::string> directoryPath = this->parseFilePath(finalPath);
 	std::string fileName = directoryPath.back();
 	directoryPath.pop_back(); // The file path entered is the final file path desired for the file, we want to access the directory above it
 	FS_item* FSitemPointer = this->validFilePath(directoryPath);
@@ -96,9 +97,9 @@ bool FileSystem::createFile(std::string &filePath, std::string &fileContent)
 					if (this->mMemblockDevice.readBlock(i).toString() == cmp.toString())
 					{
 						fileContent.resize(512);
-this->mMemblockDevice.writeBlock(i, fileContent);
-directoryPointer->addFile(i, fileName);
-result = true;
+						this->mMemblockDevice.writeBlock(i, fileContent);
+						directoryPointer->addFile(i, fileName);
+						result = true;						
 					}
 				}
 			}
@@ -109,7 +110,8 @@ result = true;
 
 bool FileSystem::createFolder(std::string &filePath) {
 	bool result = false;
-	std::vector<std::string> directoryPath = this->parseFilePath(filePath);
+	std::string finalPath = this->fullPath + filePath;
+	std::vector<std::string> directoryPath = this->parseFilePath(finalPath);
 	std::string folderName = directoryPath.back();
 	directoryPath.pop_back(); // The file path entered is the final file path desired for the file, we want to access the directory above it
 	FS_item* FSitemPointer = this->validFilePath(directoryPath);
@@ -128,14 +130,14 @@ bool FileSystem::createFolder(std::string &filePath) {
 	return result;
 }
 
-bool FileSystem::removeFile(std::string &filePath)
+bool FileSystem::removeFile(std::string &filePath) 
 {
 	bool result = false;
 	std::vector<std::string> directoryPath = this->parseFilePath(filePath);
 	std::string fileName = directoryPath.back();
 	directoryPath.pop_back(); // The file path entered is the final file path desired for the file, we want to access the directory above it
 	FS_item* FSitemPointer = this->validFilePath(directoryPath);
-
+	
 	Folder* folder = dynamic_cast<Folder*>(FSitemPointer);
 	if (folder != nullptr)
 	{
@@ -147,7 +149,7 @@ bool FileSystem::removeFile(std::string &filePath)
 			this->mMemblockDevice[file->getBlockNr()].reset();
 			folder->removeFile(file->getBlockNr());
 		}
-	}
+	}	
 	return result;
 }
 
@@ -171,9 +173,42 @@ bool FileSystem::goToFolder(std::string &filePath) {
 		{
 			this->currentDirectory = dynamic_cast<Folder*>(filePtr);
 			result = true;
-			this->fullPath = finalPath;
+			this->fullPath = finalPath + '/';
+		}		
+	}
+	return result;
+}
+
+bool FileSystem::copyFile(std::string & filePath, std::string filePath2)
+{
+	bool result = false;
+	std::string content = this->getFileContents(filePath);
+	std::vector<std::string> directoryPath = this->parseFilePath(filePath2);
+	std::string fileName = directoryPath.back();
+	directoryPath.pop_back(); // The file path entered is the final file path desired for the file, we want to access the directory above it
+	FS_item* FSitemPointer = this->validFilePath(directoryPath);
+	if (FSitemPointer != nullptr)
+	{ // If the file path was valid
+		if (typeid(*FSitemPointer) == typeid(Folder))
+		{ // If the file path is a folder and NOT a file
+			Folder* directoryPointer = (Folder*)FSitemPointer; // Typecast to folder
+			if (directoryPointer->getPointer(fileName) == nullptr)
+			{ // If the filename doesnt already exist
+				Block cmp;
+				for (int i = 0; (i < this->mMemblockDevice.size()) && !result; i++)
+				{
+					if (this->mMemblockDevice.readBlock(i).toString() == cmp.toString())
+					{
+						content.resize(512);
+						this->mMemblockDevice.writeBlock(i, content);
+						directoryPointer->addFile(i, fileName);
+						result = true;
+					}
+				}
+			}
 		}
 	}
+	
 	return result;
 }
 
@@ -183,73 +218,35 @@ std::string FileSystem::listDir() {
 	while (stringVec.size() > 0)
 	{
 		listString += stringVec.back() + " ";
-		stringVec.pop_back();
+		stringVec.pop_back();		
 	}
 	// Find the folder which is the current directory and print the names of all items inside it
 	return listString;
 }
 bool FileSystem::createImage(std::string filepath)
 {
-	bool result = true;
+	bool result = false;
+
 	std::ofstream os;
-	os.open(filepath);
-	std::vector<std::string> contents = this->root->getAllContents();
-	while (contents.size() > 0 && result)
+	os.open(filepath + ".txt");
+	if (!os.fail())
 	{
-		if (contents.front() == "File")
-		{ //Writes "File", blockNr, name and file contents to file.
-			os << contents.front();
-			contents.erase(contents.begin());
-			os << contents.front();
-			contents.erase(contents.begin());
-			os << contents.front();
-			int blockNr = std::stoi(contents.front());
-			os << this->mMemblockDevice.readBlock(blockNr).toString();
-			contents.erase(contents.begin());
-		}
-		else if(contents.front() == "Folder")
-		{ //Writes folder, nItems and folder name to file.
-			os << contents.front();
-			contents.erase(contents.begin());
-			os << contents.front();			
-			contents.erase(contents.begin());
-			os << contents.front();
-			contents.erase(contents.begin());
-		}
-		else
-		{
-			result = false;
-		}
+		result = true;
 	}
+	
 	return result;
 }
 bool FileSystem::restoreImage(std::string filepath)
 {
-	bool result = true;
 	std::ifstream is;
 	is.open(filepath);
-	std::string type;
-	while (getline(is, type) && result)
-	{
-		if (type == "File")
-		{
-			
-		}
-		else if (type == "Folder")
-		{
-
-		}
-		else
-		{
-			result = false;
-		}
-	}
-
-	return result;
+	
+	return false;
 }
 std::string FileSystem::getFileContents(std::string filepath)
 {
-	FS_item* filePtr = validFilePath(parseFilePath(filepath));
+	std::string finalPath = this->fullPath + filepath;
+	FS_item* filePtr = validFilePath(parseFilePath(finalPath));
 	std::string contents = "";
 	if (filePtr != nullptr)
 	{
