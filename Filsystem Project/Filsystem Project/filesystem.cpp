@@ -4,7 +4,7 @@ FS_item* FileSystem::validFilePath(std::vector<std::string> &filePath) {
 	FS_item* toReturn = nullptr;
 	Folder* currentSearchDirectory = this->root;
 	std::vector<std::string> remainingFilePath = filePath;
-	if (remainingFilePath.back() == "root") {
+	if (remainingFilePath.size() == 0) {
 		toReturn = this->root;
 	}
 	bool valid = true;
@@ -79,15 +79,10 @@ void FileSystem::format()
 bool FileSystem::createFile(std::string &filePath, std::string &fileContent)
 {
 	bool result = false;
-	std::vector<std::string> finalPath;
-	finalPath.push_back("root");
-	std::vector<std::string> directoryPath = parseFilePath(filePath);
+	std::vector<std::string> directoryPath = this->parseFilePath(filePath);
 	std::string fileName = directoryPath.back();
 	directoryPath.pop_back(); // The file path entered is the final file path desired for the file, we want to access the directory above it
-	if(directoryPath.size() > 0)
-		finalPath.insert(finalPath.end(), directoryPath.begin(), directoryPath.end());
-
-	FS_item* FSitemPointer = this->validFilePath(finalPath);
+	FS_item* FSitemPointer = this->validFilePath(directoryPath);
 	if (FSitemPointer != nullptr) 
 	{ // If the file path was valid
 		if (typeid(*FSitemPointer) == typeid(Folder))
@@ -114,15 +109,10 @@ bool FileSystem::createFile(std::string &filePath, std::string &fileContent)
 
 bool FileSystem::createFolder(std::string &filePath) {
 	bool result = false;
-	std::vector<std::string> finalPath;
-	finalPath.push_back("root");
-	std::vector<std::string> directoryPath = parseFilePath(filePath);
+	std::vector<std::string> directoryPath = this->parseFilePath(filePath);
 	std::string folderName = directoryPath.back();
 	directoryPath.pop_back(); // The file path entered is the final file path desired for the file, we want to access the directory above it
-	if (directoryPath.size() > 0)
-		finalPath.insert(finalPath.end(), directoryPath.begin(), directoryPath.end());
-
-	FS_item* FSitemPointer = this->validFilePath(finalPath);
+	FS_item* FSitemPointer = this->validFilePath(directoryPath);
 	if (FSitemPointer != nullptr)
 	{ //The directory path matches a FS_item.
 		if (typeid(*FSitemPointer) == typeid(Folder))
@@ -141,15 +131,10 @@ bool FileSystem::createFolder(std::string &filePath) {
 bool FileSystem::removeFile(std::string &filePath) 
 {
 	bool result = false;
-	std::vector<std::string> finalPath;
-	finalPath.push_back("root");
-	std::vector<std::string> directoryPath = parseFilePath(filePath);
+	std::vector<std::string> directoryPath = this->parseFilePath(filePath);
 	std::string fileName = directoryPath.back();
 	directoryPath.pop_back(); // The file path entered is the final file path desired for the file, we want to access the directory above it
-	if (directoryPath.size() > 0)
-		finalPath.insert(finalPath.end(), directoryPath.begin(), directoryPath.end());
-
-	FS_item* FSitemPointer = this->validFilePath(finalPath);
+	FS_item* FSitemPointer = this->validFilePath(directoryPath);
 	
 	Folder* folder = dynamic_cast<Folder*>(FSitemPointer);
 	if (folder != nullptr)
