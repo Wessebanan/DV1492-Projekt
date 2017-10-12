@@ -190,10 +190,16 @@ std::string FileSystem::listDir() {
 }
 bool FileSystem::createImage(std::string filepath)
 {
+	bool result = false;
+
 	std::ofstream os;
-	os.open(filepath);
+	os.open(filepath + ".txt");
+	if (!os.fail())
+	{
+		result = true;
+	}
 	
-	return false;
+	return result;
 }
 bool FileSystem::restoreImage(std::string filepath)
 {

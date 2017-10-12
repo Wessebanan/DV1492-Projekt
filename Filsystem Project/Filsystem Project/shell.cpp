@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include "filesystem.h"
+#include <fstream>
 
 const int MAXCOMMANDS = 8;
 const int NUMAVAILABLECOMMANDS = 15;
@@ -26,7 +27,6 @@ int main(void) {
 	std::string user = "user@DV1492";    // Change this if you want another user to be displayed
 	std::string currentDir = "";    // current directory, used for output
 	std::string fileContent = "";
-
 	
 
     bool bRun = true;
@@ -69,7 +69,14 @@ int main(void) {
 				std::cout << fs.getFileContents(commandArr[1]) << std::endl;
                 break;
             case 5: // createImage
-				fs.createImage(commandArr[1]);
+				if (fs.createImage(commandArr[1]))
+				{
+					std::cout << "Success." << std::endl;
+				}
+				else
+				{
+					std::cout << "Failure." << std::endl;
+				}
                 break;
             case 6: // restoreImage
 				fs.restoreImage(commandArr[1]);
