@@ -113,12 +113,24 @@ bool FileSystem::createFile(std::string &filePath, std::string &fileContent)
 }
 
 bool FileSystem::createFolder(std::string &filePath) {
-	if (validFilePath(this->parseFilePath(filePath)) != nullptr) {
-		// Do the thing with the stuff
-		return true;
+	bool result = false;
+	std::vector<std::string> directoryPath = this->parseFilePath(filePath);
+	std::string folderName = directoryPath.back();
+	directoryPath.pop_back();
+	FS_item* FSitemPointer = this->validFilePath(directoryPath);
+	if (FSitemPointer != nullptr)
+	{ //The directory path matches a FS_item.
+		if (typeid(*FSitemPointer) == typeid(Folder))
+		{ //The FS_item is a folder.
+			Folder* directoryPointer = (Folder*)FSitemPointer;
+			if (directoryPointer->getPointer(folderName) == nullptr)
+			{ //The name is available.
+				directoryPointer->addFolder(folderName);
+				result = true;
+			}
+		}
 	}
-	else
-		return false;
+	return result;
 }
 
 bool FileSystem::removeFile(std::string &filePath) 
