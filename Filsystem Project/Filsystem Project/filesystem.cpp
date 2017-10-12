@@ -171,7 +171,7 @@ bool FileSystem::goToFolder(std::string &filePath) {
 		{
 			this->currentDirectory = dynamic_cast<Folder*>(filePtr);
 			result = true;
-			this->fullPath = finalPath;
+			this->fullPath = finalPath + '/';
 		}		
 	}
 	return result;
