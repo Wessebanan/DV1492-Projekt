@@ -13,7 +13,7 @@ private:
 	void expand();
 
 public:
-	Folder(std::string name);
+	Folder(std::string name, std::string path);
 	~Folder();
 
 	void addFile(int blockNr, std::string name);

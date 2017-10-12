@@ -16,6 +16,7 @@ private:
 
 	FS_item* validFilePath(std::vector<std::string> &filePath);
 	std::vector<std::string> parseFilePath(std::string &filePath);
+	
     // Here you can add your own data structures
 public:
     FileSystem();
@@ -44,10 +45,11 @@ public:
 	// Kommer typ alltid vara current directory eftersom ls är kommandot
 	std::string listDir();
 
-	bool createImage(std::string filepath);
-	bool restoreImage(std::string filepath);
+	bool createImage(std::string filepath = "image");
+	bool restoreImage(std::string filepath = "image");
 	std::string getFileContents(std::string filepath);//cat
 	std::string getFullPath();
+
     /* Add your own member-functions if needed */
 };
 

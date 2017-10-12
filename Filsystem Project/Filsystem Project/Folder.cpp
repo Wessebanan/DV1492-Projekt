@@ -1,7 +1,7 @@
 #include "Folder.h"
 
-Folder::Folder(std::string name)
-	:FS_item(name)
+Folder::Folder(std::string name, std::string path)
+	:FS_item(name, path)
 {
 	this->nItems = 0;
 	this->size = 10;
@@ -48,7 +48,7 @@ void Folder::addFile(int blockNr, std::string name)
 	{
 		this->expand();
 	}
-	this->items[this->nItems++] = new File(blockNr, name);
+	this->items[this->nItems++] = new File(blockNr, name, this->path);
 
 	
 }
@@ -59,7 +59,7 @@ void Folder::addFolder(std::string name)
 	{
 		this->expand();
 	}
-	this->items[this->nItems++] = new Folder(name);
+	this->items[this->nItems++] = new Folder(name, this->path);
 }
 
 void Folder::removeFile(int blockNr)
@@ -124,22 +124,23 @@ std::vector<std::string> Folder::getAllContents()
 		if (typeid(*items[i]) == typeid(Folder))
 		{ //If folder, recurse.			
 			Folder* folder = dynamic_cast<Folder*>(this->items[i]);	
-			contents.push_back("Folder");
-			contents.push_back(folder->getName());
-			contents.push_back(std::to_string(folder->getNitems()));
+			contents.push_back("Folder"); //Type
+			contents.push_back(folder->getName()); //Name
+			contents.push_back(folder->getPath()); //Path
 			std::vector<std::string> folderContents = folder->getAllContents();
 			while (folderContents.size() > 0)
 			{ //Push contents of the folder to the contents vector.
-				contents.push_back(folderContents.back());
-				folderContents.pop_back();
+				contents.push_back(folderContents.front());
+				folderContents.erase(folderContents.begin());
 			}	
 		}
 		else if (typeid(*items[i]) == typeid(File))
 		{ //If file, push info about file.
 			File* file = dynamic_cast<File*>(this->items[i]);
-			contents.push_back("File");
-			contents.push_back(std::to_string(file->getBlockNr()));
-			contents.push_back(file->getName());
+			contents.push_back("File"); //Type
+			contents.push_back(std::to_string(file->getBlockNr()));//BlockNr
+			contents.push_back(file->getName());//Name
+			contents.push_back(file->getPath());//Path
 		}
 	}	
 	return contents;

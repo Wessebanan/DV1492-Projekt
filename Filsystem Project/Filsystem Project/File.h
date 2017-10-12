@@ -8,7 +8,7 @@ private:
 	int blockNr;
 
 public:
-	File(int blockNr, std::string name);
+	File(int blockNr, std::string name, std::string path);
 	~File();
 
 	int getBlockNr();

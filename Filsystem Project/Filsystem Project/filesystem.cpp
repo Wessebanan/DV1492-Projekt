@@ -42,37 +42,46 @@ FS_item* FileSystem::validFilePath(std::vector<std::string> &filePath) {
 	return toReturn;
 }
 
-std::vector<std::string> FileSystem::parseFilePath(std::string &filePath) {
+std::vector<std::string> FileSystem::parseFilePath(std::string &filePath) 
+{
 	// Reads a filepath of format "dir/dir/dir/file" and outputs a vector with each string
 	std::string currentName;
 	std::vector<std::string> stringVec;
-	for (int i = 0; i < filePath.size(); i++) {
+	for (int i = 0; i < filePath.size(); i++) 
+	{
 		if (filePath[i] != '\\' && filePath[i] != '/')
+		{
 			currentName = currentName + filePath[i];
-		else {
+		}
+		else 
+		{
 			stringVec.push_back(currentName);
 			currentName.clear();
 		}
 	}
-	stringVec.push_back(currentName);
+	if (currentName.size() > 0)
+	{
+		stringVec.push_back(currentName);
+	}
 	return stringVec;
 }
 
-FileSystem::FileSystem() {
-	this->root = new Folder(std::string("root"));
+FileSystem::FileSystem()
+{
+	this->root = new Folder(std::string("root"), std::string());
 	this->currentDirectory = root;
 	this->fullPath = "";
 }
 
-FileSystem::~FileSystem() {
-	// Här kan behövas mer skit för att rekursivt radera alla pekare i trädet
+FileSystem::~FileSystem() 
+{	
 	delete this->root;
 }
 
 void FileSystem::format()
 {
 	delete this->root;
-	this->root = new Folder(std::string("root"));
+	this->root = new Folder(std::string("root"), std::string());
 	this->mMemblockDevice = MemBlockDevice();
 }
 
@@ -215,33 +224,34 @@ std::string FileSystem::listDir() {
 	// Find the folder which is the current directory and print the names of all items inside it
 	return listString;
 }
-bool FileSystem::createImage(std::string filepath)
+bool FileSystem::createImage(std::string filepath = "image")
 {
 	bool result = true;
 	std::ofstream os;
 	os.open(filepath + ".txt");
 	std::vector<std::string> contents = this->root->getAllContents();
-	
+
 	while (contents.size() > 0 && result)
 	{
 		if (contents.front() == "File")
-		{ //Writes "File", blockNr, name and file contents to file.
-			os << contents.front() << std::endl;
+		{ 
+			os << contents.front() << std::endl; //Type
 			contents.erase(contents.begin());
-			os << contents.front() << std::endl;
-			int blockNr = std::stoi(contents.front());
+			int blockNr = std::stoi(contents.front()); //BlockNr
 			contents.erase(contents.begin());
-			os << contents.front() << std::endl;
+			os << contents.front() << std::endl; //Name
+			contents.erase(contents.begin());
+			os << contents.front() << std::endl; //Path
 			os << this->mMemblockDevice.readBlock(blockNr).toString() << std::endl;
 			contents.erase(contents.begin());
 		}
 		else if (contents.front() == "Folder")
-		{ //Writes folder, nItems and folder name to file.
-			os << contents.front() << std::endl;
+		{
+			os << contents.front() << std::endl; //Type
 			contents.erase(contents.begin());
-			os << contents.front() << std::endl;
+			os << contents.front() << std::endl; //Name
 			contents.erase(contents.begin());
-			os << contents.front() << std::endl;
+			os << contents.front() << std::endl; //Path
 			contents.erase(contents.begin());
 		}
 		else
@@ -251,21 +261,38 @@ bool FileSystem::createImage(std::string filepath)
 	}
 	return result;
 }
-bool FileSystem::restoreImage(std::string filepath)
+bool FileSystem::restoreImage(std::string filepath = "image")
 {
+	this->format();
 	bool result = true;
 	std::ifstream is;
-	is.open(filepath);
-	std::string type;
+	is.open(filepath + ".txt");
+	std::string type = "";
+	std::string path = "";
+	std::string name = "";
+	std::string content = "";
+
+
 	while (getline(is, type) && result)
 	{
 		if (type == "File")
 		{
-
+			getline(is, name);
+			getline(is, path);
+			getline(is, content);
+			if (!this->createFile(path, content))
+			{
+				result = false;
+			}
 		}
 		else if (type == "Folder")
 		{
-
+			getline(is, name);
+			getline(is, path);
+			if (!this->createFolder(path))
+			{
+				result = false;
+			}
 		}
 		else
 		{
