@@ -27,7 +27,7 @@ FS_item* FileSystem::validFilePath(std::vector<std::string> &filePath) {
 
 			}
 			else if (typeid(*newPointer) == typeid(Folder)) {
-				currentSearchDirectory == newPointer;
+				currentSearchDirectory = dynamic_cast<Folder*>(newPointer);
 				remainingFilePath.erase(remainingFilePath.begin()); // "pop_front", continue to next part of filepath and do the entire loop again
 			}
 			else {
@@ -79,7 +79,7 @@ void FileSystem::format()
 bool FileSystem::createFile(std::string &filePath, std::string &fileContent)
 {
 	bool result = false;
-	std::vector<std::string> directoryPath = this->parseFilePath(filePath);
+	std::vector<std::string> directoryPath = this->parseFilePath(finalPath);
 	std::string fileName = directoryPath.back();
 	directoryPath.pop_back(); // The file path entered is the final file path desired for the file, we want to access the directory above it
 	FS_item* FSitemPointer = this->validFilePath(directoryPath);
