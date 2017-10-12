@@ -227,28 +227,29 @@ bool FileSystem::createImage(std::string filepath)
 {
 	bool result = true;
 	std::ofstream os;
-	os.open(filepath);
+	os.open(filepath + ".txt");
 	std::vector<std::string> contents = this->root->getAllContents();
+	
 	while (contents.size() > 0 && result)
 	{
 		if (contents.front() == "File")
 		{ //Writes "File", blockNr, name and file contents to file.
-			os << contents.front();
+			os << contents.front() << std::endl;
 			contents.erase(contents.begin());
-			os << contents.front();
-			contents.erase(contents.begin());
-			os << contents.front();
+			os << contents.front() << std::endl;
 			int blockNr = std::stoi(contents.front());
-			os << this->mMemblockDevice.readBlock(blockNr).toString();
+			contents.erase(contents.begin());
+			os << contents.front() << std::endl;
+			os << this->mMemblockDevice.readBlock(blockNr).toString() << std::endl;
 			contents.erase(contents.begin());
 		}
 		else if (contents.front() == "Folder")
 		{ //Writes folder, nItems and folder name to file.
-			os << contents.front();
+			os << contents.front() << std::endl;
 			contents.erase(contents.begin());
-			os << contents.front();
+			os << contents.front() << std::endl;
 			contents.erase(contents.begin());
-			os << contents.front();
+			os << contents.front() << std::endl;
 			contents.erase(contents.begin());
 		}
 		else
