@@ -217,23 +217,62 @@ std::string FileSystem::listDir() {
 }
 bool FileSystem::createImage(std::string filepath)
 {
-	bool result = false;
-
+	bool result = true;
 	std::ofstream os;
-	os.open(filepath + ".txt");
-	if (!os.fail())
+	os.open(filepath);
+	std::vector<std::string> contents = this->root->getAllContents();
+	while (contents.size() > 0 && result)
 	{
-		result = true;
+		if (contents.front() == "File")
+		{ //Writes "File", blockNr, name and file contents to file.
+			os << contents.front();
+			contents.erase(contents.begin());
+			os << contents.front();
+			contents.erase(contents.begin());
+			os << contents.front();
+			int blockNr = std::stoi(contents.front());
+			os << this->mMemblockDevice.readBlock(blockNr).toString();
+			contents.erase(contents.begin());
+		}
+		else if (contents.front() == "Folder")
+		{ //Writes folder, nItems and folder name to file.
+			os << contents.front();
+			contents.erase(contents.begin());
+			os << contents.front();
+			contents.erase(contents.begin());
+			os << contents.front();
+			contents.erase(contents.begin());
+		}
+		else
+		{
+			result = false;
+		}
 	}
-	
 	return result;
 }
 bool FileSystem::restoreImage(std::string filepath)
 {
+	bool result = true;
 	std::ifstream is;
 	is.open(filepath);
-	
-	return false;
+	std::string type;
+	while (getline(is, type) && result)
+	{
+		if (type == "File")
+		{
+
+		}
+		else if (type == "Folder")
+		{
+
+		}
+		else
+		{
+			result = false;
+		}
+	}
+
+	return result;
 }
 std::string FileSystem::getFileContents(std::string filepath)
 {
