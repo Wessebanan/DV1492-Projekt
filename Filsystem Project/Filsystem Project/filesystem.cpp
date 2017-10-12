@@ -114,10 +114,15 @@ bool FileSystem::createFile(std::string &filePath, std::string &fileContent)
 
 bool FileSystem::createFolder(std::string &filePath) {
 	bool result = false;
-	std::vector<std::string> directoryPath = this->parseFilePath(filePath);
+	std::vector<std::string> finalPath;
+	finalPath.push_back("root");
+	std::vector<std::string> directoryPath = parseFilePath(filePath);
 	std::string folderName = directoryPath.back();
-	directoryPath.pop_back();
-	FS_item* FSitemPointer = this->validFilePath(directoryPath);
+	directoryPath.pop_back(); // The file path entered is the final file path desired for the file, we want to access the directory above it
+	if (directoryPath.size() > 0)
+		finalPath.insert(finalPath.end(), directoryPath.begin(), directoryPath.end());
+
+	FS_item* FSitemPointer = this->validFilePath(finalPath);
 	if (FSitemPointer != nullptr)
 	{ //The directory path matches a FS_item.
 		if (typeid(*FSitemPointer) == typeid(Folder))
