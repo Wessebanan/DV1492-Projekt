@@ -109,3 +109,38 @@ FS_item * Folder::getPointer(std::string name)
 	}
 	return ptr;
 }
+
+int Folder::getNitems()
+{
+	return this->nItems;
+}
+
+std::vector<std::string> Folder::getAllContents()
+{
+	std::vector<std::string> contents;
+
+	for (int i = 0; i < nItems; i++)
+	{ //Pushing to vector in reverse because it's read from reverse.
+		if (typeid(*items[i]) == typeid(Folder))
+		{ //If folder, recurse.			
+			Folder* folder = dynamic_cast<Folder*>(this->items[i]);	
+			contents.push_back("Folder");
+			contents.push_back(folder->getName());
+			contents.push_back(std::to_string(folder->getNitems()));
+			std::vector<std::string> folderContents = folder->getAllContents();
+			while (folderContents.size() > 0)
+			{ //Push contents of the folder to the contents vector.
+				contents.push_back(folderContents.back());
+				folderContents.pop_back();
+			}	
+		}
+		else if (typeid(*items[i]) == typeid(File))
+		{ //If file, push info about file.
+			File* file = dynamic_cast<File*>(this->items[i]);
+			contents.push_back("File");
+			contents.push_back(std::to_string(file->getBlockNr()));
+			contents.push_back(file->getName());
+		}
+	}	
+	return contents;
+}

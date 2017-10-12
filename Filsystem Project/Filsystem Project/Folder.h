@@ -24,6 +24,9 @@ public:
 
 	std::vector<std::string> getContents();
 	FS_item* getPointer(std::string name);
+	int getNitems();
+
+	std::vector<std::string> getAllContents();
 
 };
 #endif
