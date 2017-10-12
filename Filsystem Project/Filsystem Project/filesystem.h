@@ -35,9 +35,6 @@ public:
     /* Removes a file in the filesystem */
     bool removeFile(std::string &filePath);
 
-    /* Removes a folder in the filesystem */
-    bool removeFolder(std::string &filePath);
-
     /* Function will move the current location to a specified location in the filesystem */
     bool goToFolder(std::string &filePath);
 
