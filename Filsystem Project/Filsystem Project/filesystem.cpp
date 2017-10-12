@@ -166,7 +166,7 @@ bool FileSystem::goToFolder(std::string &filePath) {
 	if (filePtr != nullptr)
 	{
 		std::string name = typeid(filePtr).name();
-		if (typeid(filePtr) == typeid(Folder*))
+		if (typeid(*filePtr) == typeid(Folder))
 		{
 			this->currentDirectory = dynamic_cast<Folder*>(filePtr);
 			result = true;
