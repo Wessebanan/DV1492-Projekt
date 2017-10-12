@@ -79,7 +79,14 @@ int main(void) {
 				}
                 break;
             case 6: // restoreImage
-				fs.restoreImage(commandArr[1]);
+				if (!fs.restoreImage(commandArr[1]))
+				{
+					std::cout << "Success." << std::endl;
+				}
+				else
+				{
+					std::cout << "Failure." << std::endl;
+				}
                 break;
             case 7: // rm
 				if (fs.removeFile(commandArr[1]))
@@ -90,7 +97,6 @@ int main(void) {
 				{
 					std::cout << "Failure." << std::endl;
 				}
-
                 break;
             case 8: // cp
 				// fs.copyFile(commandArr[1], commandArr[2]);
@@ -102,7 +108,14 @@ int main(void) {
 				// Detta är ett C-krav
                 break;
             case 11: // mkdir
-				fs.createFolder(commandArr[1]);
+				if(!fs.createFolder(commandArr[1]))
+				{
+					std::cout << "Success." << std::endl;
+				}
+				else
+				{
+					std::cout << "Failure." << std::endl;
+				}
                 break;
             case 12: // cd
 				fs.goToFolder(commandArr[1]);
