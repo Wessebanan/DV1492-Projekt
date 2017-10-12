@@ -243,7 +243,8 @@ bool FileSystem::restoreImage(std::string filepath)
 }
 std::string FileSystem::getFileContents(std::string filepath)
 {
-	FS_item* filePtr = validFilePath(parseFilePath(filepath));
+	std::string finalPath = this->fullPath + filepath;
+	FS_item* filePtr = validFilePath(parseFilePath(finalPath));
 	std::string contents = "";
 	if (filePtr != nullptr)
 	{
