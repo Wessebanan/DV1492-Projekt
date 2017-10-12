@@ -79,7 +79,7 @@ void FileSystem::format()
 bool FileSystem::createFile(std::string &filePath, std::string &fileContent)
 {
 	bool result = false;
-	std::vector<std::string> directoryPath = parseFilePath(filePath);
+	std::vector<std::string> directoryPath = this->parseFilePath(filePath);
 	std::string fileName = directoryPath.back();
 	directoryPath.pop_back(); // The file path entered is the final file path desired for the file, we want to access the directory above it
 	FS_item* FSitemPointer = this->validFilePath(directoryPath);
@@ -92,12 +92,12 @@ bool FileSystem::createFile(std::string &filePath, std::string &fileContent)
 			{ // If the filename doesnt already exist
 				Block cmp;
 				for (int i = 0; (i < this->mMemblockDevice.size()) && !result; i++)
-				{
+				{ //Look through memblockdevice for a free block by comparing each to an empty block (cmp).
 					if (this->mMemblockDevice.readBlock(i).toString() == cmp.toString())
-					{
+					{ //Expand the string to fit the required size.
 						fileContent.resize(512);
 						this->mMemblockDevice.writeBlock(i, fileContent);
-						this->currentDirectory->addFile(i, fileName);
+						directoryPointer->addFile(i, fileName);
 						result = true;						
 					}
 				}
@@ -107,13 +107,26 @@ bool FileSystem::createFile(std::string &filePath, std::string &fileContent)
 	return result;
 }
 
-bool FileSystem::createFolder(std::string &filePath) {
-	if (validFilePath(this->parseFilePath(filePath)) != nullptr) {
-		// Do the thing with the stuff
-		return true;
+bool FileSystem::createFolder(std::string &filePath) 
+{
+	bool result = false;
+	std::vector<std::string> directoryPath = this->parseFilePath(filePath);
+	std::string folderName = directoryPath.back();
+	directoryPath.pop_back();
+	FS_item* FSitemPointer = this->validFilePath(directoryPath);
+	if (FSitemPointer != nullptr)
+	{ //The directory path matches a FS_item.
+		if (typeid(*FSitemPointer) == typeid(Folder))
+		{ //The FS_item is a folder.
+			Folder* directoryPointer = (Folder*)FSitemPointer;
+			if(directoryPointer->getPointer(folderName) == nullptr)
+			{ //The name is available.
+				directoryPointer->addFolder(folderName);
+				result = true;
+			}
+		}
 	}
-	else
-		return false;
+	return result;
 }
 
 bool FileSystem::removeFile(std::string &filePath) 
