@@ -97,7 +97,7 @@ bool FileSystem::createFile(std::string &filePath, std::string &fileContent)
 					{
 						fileContent.resize(512);
 						this->mMemblockDevice.writeBlock(i, fileContent);
-						this->currentDirectory->addFile(i, fileName);
+						directoryPointer->addFile(i, fileName);
 						result = true;						
 					}
 				}
