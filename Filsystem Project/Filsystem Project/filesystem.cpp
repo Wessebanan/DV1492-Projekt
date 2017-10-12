@@ -79,7 +79,7 @@ void FileSystem::format()
 bool FileSystem::createFile(std::string &filePath, std::string &fileContent)
 {
 	bool result = false;
-	std::vector<std::string> directoryPath = this->parseFilePath(finalPath);
+	std::vector<std::string> directoryPath = this->parseFilePath(filePath);
 	std::string fileName = directoryPath.back();
 	directoryPath.pop_back(); // The file path entered is the final file path desired for the file, we want to access the directory above it
 	FS_item* FSitemPointer = this->validFilePath(directoryPath);
