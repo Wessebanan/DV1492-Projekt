@@ -142,7 +142,8 @@ bool FileSystem::createFolder(std::string &filePath) {
 bool FileSystem::removeFile(std::string &filePath) 
 {
 	bool result = false;
-	std::vector<std::string> directoryPath = this->parseFilePath(filePath);
+	std::string finalPath = this->fullPath + filePath;
+	std::vector<std::string> directoryPath = this->parseFilePath(finalPath);
 	std::string fileName = directoryPath.back();
 	directoryPath.pop_back(); // The file path entered is the final file path desired for the file, we want to access the directory above it
 	FS_item* FSitemPointer = this->validFilePath(directoryPath);
