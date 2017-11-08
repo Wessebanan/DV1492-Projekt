@@ -165,7 +165,15 @@ bool FileSystem::removeFile(std::string &filePath)
 
 
 bool FileSystem::goToFolder(std::string &filePath) {
-	std::string finalPath = this->fullPath + filePath;
+	std::string finalPath;
+	if (filePath[0] == '/') {
+		filePath.erase(filePath.begin());
+		finalPath = filePath; // The user is trying to cd using absolute directory
+	}
+	else {
+		finalPath = this->fullPath + filePath;
+	}
+
 	FS_item* filePtr = this->validFilePath(this->parseFilePath(finalPath));
 	bool result = false;
 	if (filePtr != nullptr)
@@ -175,7 +183,10 @@ bool FileSystem::goToFolder(std::string &filePath) {
 		{
 			this->currentDirectory = dynamic_cast<Folder*>(filePtr);
 			result = true;
-			this->fullPath = finalPath + '/';
+			if (filePath.empty())
+				this->fullPath = "";
+			else
+				this->fullPath = finalPath + '/';
 		}		
 	}
 	return result;
