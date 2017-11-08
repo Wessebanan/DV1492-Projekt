@@ -43,7 +43,7 @@ public:
 
     /* This function will get all the files and folders in the specified folder */
 	// Kommer typ alltid vara current directory eftersom ls är kommandot
-	std::string listDir();
+	std::vector<std::string> listDir();
 
 	bool createImage(std::string filepath = "image");
 	bool restoreImage(std::string filepath = "image");
