@@ -98,7 +98,9 @@ int main(void) {
 				}
                 break;
             case 8: // cp
-				if (fs.copyFile(commandArr[1], commandArr[2]))
+				std::string content="";
+				content = fs.getFileContents(commandArr[1]);
+				if(fs.createFile(commandArr[2], content))
 				{
 					std::cout << "Success." << std::endl;
 				}
