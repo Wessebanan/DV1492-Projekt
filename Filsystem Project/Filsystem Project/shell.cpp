@@ -78,7 +78,7 @@ int main(void) {
 				}
                 break;
             case 6: // restoreImage
-				if (fs.restoreImage(commandArr[1]))
+				if (fs.format && fs.restoreImage(commandArr[1]))
 				{
 					std::cout << "Success." << std::endl;
 				}
@@ -98,9 +98,8 @@ int main(void) {
 				}
                 break;
             case 8: // cp
-				std::string content="";
-				content = fs.getFileContents(commandArr[1]);
-				if(fs.createFile(commandArr[2], content))
+				fileContent = fs.getFileContents(commandArr[1]);
+				if(fs.createFile(commandArr[2], fileContent))
 				{
 					std::cout << "Success." << std::endl;
 				}
