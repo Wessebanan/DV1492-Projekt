@@ -83,6 +83,7 @@ void FileSystem::format()
 	delete this->root;
 	this->root = new Folder(std::string("root"), std::string());
 	this->mMemblockDevice = MemBlockDevice();
+	this->currentDirectory = this->root;
 }
 
 bool FileSystem::createFile(std::string &filePath, std::string &fileContent)
