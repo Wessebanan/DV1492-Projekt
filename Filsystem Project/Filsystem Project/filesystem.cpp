@@ -84,6 +84,7 @@ void FileSystem::format()
 	this->root = new Folder(std::string("root"), std::string());
 	this->mMemblockDevice = MemBlockDevice();
 	this->currentDirectory = this->root;
+	this->fullPath = "";
 }
 
 bool FileSystem::createFile(std::string &filePath, std::string &fileContent)
