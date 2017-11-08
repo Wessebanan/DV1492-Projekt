@@ -27,8 +27,6 @@ int main(void) {
 	std::string user = "user@DV1492";    // Change this if you want another user to be displayed
 	std::string currentDir = "";    // current directory, used for output
 	std::string fileContent = "";
-	std::vector<std::string> stringVec;
-	std::string listString = "";
 
     bool bRun = true;
 
@@ -52,14 +50,7 @@ int main(void) {
                 break;
             case 2: // ls
                 std::cout << "Listing directory: " << std::endl;
-				stringVec = fs.listDir();
-				while (stringVec.size() > 0)
-				{
-					listString += stringVec.back() + " ";
-					stringVec.pop_back();		
-				}
-				std::cout << listString << std::endl;
-				stringVec = std::vector<std::string>();
+				std::cout << fs.listDir() << std::endl;
                 break;
             case 3: // create
 				std::cout << "Enter file content: " << std::endl;

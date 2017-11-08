@@ -228,16 +228,16 @@ bool FileSystem::copyFile(std::string & filePath, std::string filePath2)
 	return result;
 }
 
-std::vector<std::string> FileSystem::listDir() {
-	return /*std::vector<std::string> stringVec =*/ this->currentDirectory->getContents();
-	//std::string listString = "";
-	//while (stringVec.size() > 0)
-	//{
-	//	listString += stringVec.back() + " ";
-	//	stringVec.pop_back();		
-	//}
-	//// Find the folder which is the current directory and print the names of all items inside it
-	//return listString;
+std::string FileSystem::listDir() {
+	std::vector<std::string> stringVec = this->currentDirectory->getContents();
+	std::string listString = "";
+	while (stringVec.size() > 0)
+	{
+		listString += stringVec.back() + " ";
+		stringVec.pop_back();		
+	}
+	// Find the folder which is the current directory and print the names of all items inside it
+	return listString;
 }
 bool FileSystem::createImage(std::string filepath)
 {
