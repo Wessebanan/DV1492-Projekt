@@ -59,6 +59,7 @@ int main(void) {
 					stringVec.pop_back();		
 				}
 				std::cout << listString << std::endl;
+				stringVec = std::vector<std::string>();
                 break;
             case 3: // create
 				std::cout << "Enter file content: " << std::endl;
