@@ -78,6 +78,7 @@ int main(void) {
 				}
                 break;
             case 6: // restoreImage
+				fs.format();
 				if (fs.restoreImage(commandArr[1]))
 				{
 					std::cout << "Success." << std::endl;
